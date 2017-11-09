@@ -6,14 +6,18 @@ MASTER_DIR=`pwd`
 K_DIM=4
 Q_DIM=4
 M_DIM=20
+CALC_SCF=true
+CALC_PH=true
+
 
 for i in `seq $1 $2 $3` ; do
 	echo "On lattice param = $i"
 	mkdir -p si.$i
 	cd si.$i
-	echo "Calculating for lat_param = $i"
-	#The self-consistent calculation script
-	cat > si.scf.$i.in << EOF		
+	if $CALC_SCF; then
+		echo "Calculating for lat_param = $i"
+		#The self-consistent calculation script
+		cat > si.scf.$i.in << EOF		
 &control
 	calculation = 'scf',
 	prefix = 'silicon.$i',
@@ -37,9 +41,11 @@ ATOMIC_POSITIONS
 K_POINTS automatic
  $K_DIM $K_DIM $K_DIM	1 1 1
 EOF
-	mpirun -np 4 pw.x < si.scf.$i.in > si.scf.$i.out
-	echo "Done calculating plane wave expansion, now doing phonons"
-	cat > si.ph.$i.in << EOF
+		mpirun -np 4 pw.x < si.scf.$i.in > si.scf.$i.out
+		echo "Done calculating plane wave expansion, now doing phonons"
+	fi 
+	if $CALC_PH; then
+		cat > si.ph.$i.in << EOF
 Silicon Phonon Calculation for Lat_Param=$i
 &inputph
 	prefix = 'silicon.$i',
@@ -50,8 +56,9 @@ Silicon Phonon Calculation for Lat_Param=$i
 	fildyn = 'silicon.$i.dyn',
 /
 EOF
-	mpirun -np 4 ph.x < si.ph.$i.in > si.ph.$i.out 
-	echo "Done calculating phonons"
+		mpirun -np 4 ph.x < si.ph.$i.in > si.ph.$i.out 
+		echo "Done calculating phonons"
+	fi	
 	echo "Doing real force constants..."
 	cat > si.q2r.$i.in << EOF
 &input
