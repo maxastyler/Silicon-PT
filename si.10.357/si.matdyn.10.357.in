@@ -2,9 +2,9 @@
 	asr = 'simple',
 	flfrc = 'silicon.444.10.357.fc',
 	flfrq = 'silicon.10.357.freq',
-	nk1 = 20,
-	nk2 = 20,
-	nk3 = 20,
+	nk1 = 30,
+	nk2 = 30,
+	nk3 = 30,
 	dos = .true.,
-	fldos = 'silicon.202020.10.357.dos',
+	fldos = 'silicon.303030.10.357.dos',
 /
