@@ -9,8 +9,8 @@ MASTER_DIR=`pwd`
 K_DIM=4
 Q_DIM=4
 M_DIM=30
-CALC_SCF=false
-CALC_PH=false
+CALC_SCF=true
+CALC_PH=true
 
 
 for i in `seq $1 $2 $3` ; do
