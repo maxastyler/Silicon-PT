@@ -1,0 +1,10 @@
+&input
+	asr = 'simple',
+	flfrc = 'silicon.444.10.26.fc',
+	flfrq = 'silicon.10.26.freq',
+	nk1 = 20,
+	nk2 = 20,
+	nk3 = 20,
+	dos = .true.,
+	fldos = 'silicon.202020.10.26.dos',
+/
