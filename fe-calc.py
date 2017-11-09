@@ -1,3 +1,4 @@
+#TODO: need to include electron energy
 import numpy as np
 import matplotlib.pyplot as plt
 
