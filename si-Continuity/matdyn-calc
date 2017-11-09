@@ -8,7 +8,7 @@ cd `echo $0 | sed 's/\(.*\)\/.*/\1/'` # extract pathname
 MASTER_DIR=`pwd`
 K_DIM=4
 Q_DIM=4
-M_DIM=20
+M_DIM=30
 CALC_SCF=true
 CALC_PH=true
 
