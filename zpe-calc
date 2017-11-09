@@ -11,5 +11,5 @@ for i in `seq $1 $2 $3`; do
 	echo "On lattice param = $i"
 	cd si.$i
 	echo -e "silicon.$M_DIM$M_DIM$M_DIM.$i.dos\nsi.$i.fe\n$(seq $4 $5 $6)" | fqha.x
-	cd MASTER_DIR
+	cd $MASTER_DIR
 done
