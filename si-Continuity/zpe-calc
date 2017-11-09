@@ -5,7 +5,7 @@
 # run from directory where this script is
 cd `echo $0 | sed 's/\(.*\)\/.*/\1/'` # extract pathname
 MASTER_DIR=`pwd`
-M_DIM=20
+M_DIM=30
 
 for i in `seq $1 $2 $3`; do
 	echo "On lattice param = $i"
