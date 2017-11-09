@@ -1,6 +1,9 @@
 #!/bin/sh
 
 # run from directory where this script is
+# needs 3 arguments:
+# $./matdyn-calc lat_min lat_step lat_max
+
 cd `echo $0 | sed 's/\(.*\)\/.*/\1/'` # extract pathname
 MASTER_DIR=`pwd`
 K_DIM=4
