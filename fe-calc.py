@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-ADD_ELECTRON_ENERGY=True
+ADD_ELECTRON_ENERGY=False
 
 #This way of calculating gives the free energies as FREE_ENERGIES[x][y]
 #The first index, x specifies the temperature and the second specifies the lattice parameter
@@ -28,8 +28,8 @@ def load_lats(lats, lat_strings):
     #ax = fig.gca(projection = '3d')
     #surf = ax.plot_surface(LAT, TEMP, FREE_ENERGIES)
      
-    #plt.plot(LAT[0], FREE_ENERGIES[0])
-    plt.plot(LAT[0], electron_energy)
+    plt.plot(LAT[0], FREE_ENERGIES[0])
+    #plt.plot(LAT[0], electron_energy)
 #    plt.contourf(LAT, TEMP, FREE_ENERGIES, 100)
     plt.show()
 
