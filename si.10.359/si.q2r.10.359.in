@@ -1,0 +1,5 @@
+&input
+	fildyn = 'silicon.10.359.dyn',
+	zasr = 'simple',
+	flfrc = 'silicon.444.10.359.fc',
+/
