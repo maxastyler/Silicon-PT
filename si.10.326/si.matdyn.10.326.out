@@ -1,5 +1,5 @@
 
-     Program MATDYN v.6.1 (svn rev. 13369) starts on  9Nov2017 at 16: 7:29 
+     Program MATDYN v.6.1 (svn rev. 13369) starts on  9Nov2017 at 16:22:44 
 
      This program is part of the open-source Quantum ESPRESSO suite
      for quantum simulation of materials; please cite
@@ -12,10 +12,10 @@
      R & G space division:  proc/nbgrp/npool/nimage =       4
  mass for atomic type   1 not given; uses mass from file silicon.444.10.326.fc                                                                                                                                                                                                                                           
 
-     MATDYN       :  1m 7.84s CPU     1m14.12s WALL
+     MATDYN       :    35.55s CPU        36.33s WALL
 
 
-   This run was terminated on:  16: 8:43   9Nov2017            
+   This run was terminated on:  16:23:21   9Nov2017            
 
 =------------------------------------------------------------------------------=
    JOB DONE.
