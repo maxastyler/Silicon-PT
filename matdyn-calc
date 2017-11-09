@@ -8,9 +8,9 @@ cd `echo $0 | sed 's/\(.*\)\/.*/\1/'` # extract pathname
 MASTER_DIR=`pwd`
 K_DIM=4
 Q_DIM=4
-M_DIM=20
-CALC_SCF=true
-CALC_PH=true
+M_DIM=30
+CALC_SCF=false
+CALC_PH=false
 
 
 for i in `seq $1 $2 $3` ; do
@@ -61,17 +61,17 @@ Silicon Phonon Calculation for Lat_Param=$i
 EOF
 		mpirun -np 4 ph.x < si.ph.$i.in > si.ph.$i.out 
 		echo "Done calculating phonons"
-	fi	
-	echo "Doing real force constants..."
-	cat > si.q2r.$i.in << EOF
+		echo "Doing real force constants..."
+		cat > si.q2r.$i.in << EOF
 &input
 	fildyn = 'silicon.$i.dyn',
 	zasr = 'simple',
 	flfrc = 'silicon.$Q_DIM$Q_DIM$Q_DIM.$i.fc',
 /
 EOF
-	mpirun -np 4 q2r.x < si.q2r.$i.in > si.q2r.$i.out
-	echo "Calculated real force constants, now calculating density of states"
+		mpirun -np 4 q2r.x < si.q2r.$i.in > si.q2r.$i.out
+		echo "Calculated real force constants, now calculating density of states"
+	fi
 	cat > si.matdyn.$i.in << EOF
 &input
 	asr = 'simple',
