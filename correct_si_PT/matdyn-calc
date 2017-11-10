@@ -1,0 +1,90 @@
+#!/bin/sh
+
+# run from directory where this script is
+# needs 3 arguments:
+# $./matdyn-calc lat_min lat_step lat_max
+
+cd `echo $0 | sed 's/\(.*\)\/.*/\1/'` # extract pathname
+MASTER_DIR=`pwd`
+K_DIM=4
+Q_DIM=4
+M_DIM=30
+CALC_SCF=false
+CALC_PH=false
+
+
+for i in `seq $1 $2 $3` ; do
+	echo "On lattice param = $i"
+	mkdir -p si.$i
+	cd si.$i
+	if $CALC_SCF; then
+		echo "Calculating for lat_param = $i"
+		#The self-consistent calculation script
+		cat > si.scf.$i.in << EOF		
+&control
+	calculation = 'scf',
+	prefix = 'silicon.$i',
+/
+&system
+	ibrav = 2,
+	celldm(1) = $i,
+	nat = 2,
+	ntyp = 1,
+	ecutwfc = 18.0,
+/
+&electrons
+	mixing_beta = 0.7,
+	conv_thr = 1.0d-8,
+/
+ATOMIC_SPECIES
+ Si 28.086 si_pbe_v1.uspp.F.UPF.txt
+ATOMIC_POSITIONS
+ Si 0.00 0.00 0.00
+ Si 0.25 0.25 0.25
+K_POINTS automatic
+ $K_DIM $K_DIM $K_DIM	1 1 1
+EOF
+		mpirun -np 4 pw.x < si.scf.$i.in > si.scf.$i.out
+		echo "Done calculating plane wave expansion, now doing phonons"
+	fi 
+	if $CALC_PH; then
+		cat > si.ph.$i.in << EOF
+Silicon Phonon Calculation for Lat_Param=$i
+&inputph
+	prefix = 'silicon.$i',
+	ldisp = .true.
+	nq1 = $Q_DIM,
+	nq2 = $Q_DIM,
+	nq3 = $Q_DIM,
+	fildyn = 'silicon.$i.dyn',
+/
+EOF
+		mpirun -np 4 ph.x < si.ph.$i.in > si.ph.$i.out 
+		echo "Done calculating phonons"
+		echo "Doing real force constants..."
+		cat > si.q2r.$i.in << EOF
+&input
+	fildyn = 'silicon.$i.dyn',
+	zasr = 'simple',
+	flfrc = 'silicon.$Q_DIM$Q_DIM$Q_DIM.$i.fc',
+/
+EOF
+		mpirun -np 4 q2r.x < si.q2r.$i.in > si.q2r.$i.out
+		echo "Calculated real force constants, now calculating density of states"
+	fi
+	cat > si.matdyn.$i.in << EOF
+&input
+	asr = 'simple',
+	flfrc = 'silicon.$Q_DIM$Q_DIM$Q_DIM.$i.fc',
+	flfrq = 'silicon.$i.freq',
+	nk1 = $M_DIM,
+	nk2 = $M_DIM,
+	nk3 = $M_DIM,
+	dos = .true.,
+	fldos = 'silicon.$M_DIM$M_DIM$M_DIM.$i.dos',
+/
+EOF
+	mpirun -np 4 matdyn.x < si.matdyn.$i.in > si.matdyn.$i.out 
+	echo "Finished this one"
+	cd $MASTER_DIR
+done
