@@ -2,6 +2,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
+from scipy import interpolate
 from mpl_toolkits.mplot3d import Axes3D
 
 ADD_ELECTRON_ENERGY=True
@@ -31,10 +32,21 @@ def load_lats(lats, lat_strings):
     #ax = fig.gca(projection = '3d')
     #surf = ax.plot_surface(LAT, TEMP, FREE_ENERGIES)
 
-    parabola_fit = curve_fit(lambda x, a, b, c: a*(x-b)**2+c, LAT[0], FREE_ENERGIES[0])
-    print(parabola_fit[0])
-     
+    #calculate the fitted free energies to give: fitted_energies[temp][lat]
+    fitted_energies=[]
+    for temp_index in range(len(LAT)):
+        p_fit = curve_fit(lambda x, a, b, c: a*(x-b)**2+c, LAT[temp_index], FREE_ENERGIES[temp_index])
+        a=p_fit[0]
+        if temp_index==0:
+            print(a)
+        fitted_energies.append([a[0]*(x-a[1])**2+a[2] for x in LAT[temp_index]])
+
     plt.plot(LAT[0], FREE_ENERGIES[0])
+    plt.plot(LAT[0], fitted_energies[0])
+    
+    interpolated_energies = interpolate.interp2d(TEMP, LAT, fitted_energies)
+    e_interp=[interpolated_energies(0, i) for i in LAT[0]]
+    plt.plot(LAT[0], e_interp)
     #plt.plot(LAT[0], electron_energy)
     #plt.contourf(LAT, TEMP, FREE_ENERGIES, 100)
     plt.show()
