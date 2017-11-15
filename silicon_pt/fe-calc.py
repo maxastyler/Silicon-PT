@@ -41,12 +41,12 @@ def load_lats(lats, lat_strings):
             print(a)
         fitted_energies.append([a[0]*(x-a[1])**2+a[2] for x in LAT[temp_index]])
 
-    plt.plot(LAT[0], FREE_ENERGIES[0])
-    plt.plot(LAT[0], fitted_energies[0])
+    plt.plot(LAT[34], FREE_ENERGIES[34])
+    plt.plot(LAT[34], fitted_energies[34])
     
     interpolated_energies = interpolate.interp2d(TEMP, LAT, fitted_energies)
     e_interp=[interpolated_energies(0, i) for i in LAT[0]]
-    plt.plot(LAT[0], e_interp)
+    #plt.plot(LAT[0], e_interp)
     #plt.plot(LAT[0], electron_energy)
     #plt.contourf(LAT, TEMP, FREE_ENERGIES, 100)
     plt.show()

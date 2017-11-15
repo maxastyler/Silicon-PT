@@ -2,7 +2,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-from scipy.optimize import curve_fit
 
 ADD_ELECTRON_ENERGY=False
 
@@ -39,46 +38,11 @@ def plot_electron_energy(lats, lat_strings):
     plt.plot(lats, es) 
     plt.show()
 
-def plot_electron_energy_difference(lats, lat_strings):
-    es = [get_electrons_energy(i) for i in lat_strings]
-    e_diffs = [abs(i - es[-1]) for i in es]
-    plt.semilogy(lats, e_diffs) 
-    plt.show()
-
-def plot_electron_pressure(lats, lat_strings):
-    ps = [get_electrons_pressure(i) for i in lat_strings]
-    plt.plot(lats, ps) 
-    plt.show()
-
-def plot_electron_pressure_difference(lats, lat_strings):
-    ps = [get_electrons_pressure(i) for i in lat_strings]
-    p_diffs = [abs(i - ps[-1]) for i in ps]
-    plt.semilogy(lats, p_diffs) 
-    plt.show()
-
-def plot_electron_energy_pressure_difference(lats, lat_strings):
-    es = [get_electrons_energy(i) for i in lat_strings]
-    e_diffs = [abs(i - es[-1]) for i in es]
-    plt.subplot(121)
-    plt.title("Energy convergence vs ecutwfc")
-    plt.semilogy(lats, e_diffs) 
-    ps = [get_electrons_pressure(i) for i in lat_strings]
-    p_diffs = [abs(i - ps[-1]) for i in ps]
-    plt.subplot(122)
-    plt.title("Pressure convergence vs ecutwfc")
-    plt.semilogy(lats, p_diffs) 
-    plt.show()
 def get_electrons_energy(lat_string):
     with open("si.{lat}/si.scf.{lat}.out".format(lat=lat_string)) as f:
         for line in f.readlines(): 
             if "!" in line: 
                 return float(line.split()[-2])
-
-def get_electrons_pressure(lat_string):
-    with open("si.{lat}/si.scf.{lat}.out".format(lat=lat_string)) as f:
-        for line in f.readlines(): 
-            if "total   stress  (Ry/bohr**3)                   (kbar)" in line:
-                return float(line.split()[-1])
 
 def load_closer_to_lat_param():
     lats = np.arange(10.32, 10.36, 0.001)
@@ -97,9 +61,8 @@ def load_more_spaced_out():
 #load_closer_to_lat_param()
 #load_more_spaced_out()
 
-ecuts = np.arange(10, 60, 2)
-ecut_strings = []
-for i in ecuts: 
-    ecut_strings.append("{ecut}".format(ecut=i))
-plot_electron_energy_pressure_difference(ecuts, ecut_strings)
-
+lats = np.arange(10, 20, 0.5)
+lat_strings = []
+for i in lats: 
+    lat_strings.append("{lat:.1f}".format(lat=i))
+plot_electron_energy(lats, lat_strings)
