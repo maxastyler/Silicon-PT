@@ -1,0 +1,24 @@
+#!/bin/sh
+#File that generates the inputs for ev.x, will put them in bm_fits
+#Argument format is:
+#lat_min lat_step lat_max temp_min temp_step temp_max
+#Outputs files as $PREFIX.$TEMP.bm
+PREFIX='si'
+OUTPUT_DIR='bm_fits'
+
+#Make sure that directory exists
+mkdir -p "$OUTPUT_DIR"
+
+#Clear the current temperature files
+for t in `seq $4 $5 $6` ; do
+	rm "$OUTPUT_DIR/$PREFIX.$t.bm"
+done
+
+for l in `seq $1 $2 $3` ; do
+	LA_FE=$(cat "$PREFIX.$l/$PREFIX.scf.$l.out" | grep ! | awk '{ print $5 }')
+	for t in `seq $4 $5 $6` ; do	
+		PH_FE=$(cat "$PREFIX.$l/$PREFIX.$l.fe" | awk '$1 ~ /^'$t'\./' | awk '{ print $2 }')
+		FE_TOT=$(python -c "print(($LA_FE)+($PH_FE))")
+		echo -e "$l\t$FE_TOT" >> "$OUTPUT_DIR/$PREFIX.$t.bm"
+	done
+done
