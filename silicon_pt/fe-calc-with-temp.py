@@ -71,25 +71,25 @@ def load_lats(lats, lat_strings):
     #fig1 = plt.subplot(211)
     #plt.figure().set_size_inches(5, 5)
     plt.title(r"Free Energy vs Lattice Parameter in Silicon with Isotherms")
-    for i in range(len(LAT)):
+    for i in range(0, len(LAT), 2):
         plt.plot(LAT[i], FREE_ENERGIES[i], 'b-')
         #fig1.plot(LAT[0], fitted_energies[0], 'b.')
     #print(v_0[0])
     l_vals = [(v/det_cell)**(1/3) for v in v_0[0]]
     #print(l_vals)
-    plt.plot([(v/det_cell)**(1/3) for v in v_0[0]], v_0[1])
+    plt.plot([(v/det_cell)**(1/3) for v in v_0[0]], v_0[1], c = 'r')
     plt.xlabel(r'Lattice Paramter (Bohr)')
         # Make the y-axis label, ticks and tick labels match the line color.
-    plt.ylabel(r'Free energy $(Ry)$', color='b')
-    plt.tick_params('y', colors='b')
+    plt.ylabel(r'Free energy $(Ry)$')
+    plt.tick_params('y')
     plt.tight_layout()
     plt.savefig('../../Sodium-DFT-Project/project_presentation/silicon_isotherms.png')
     #plt.subplot(212)
     plt.clf()
     #plt.figure().set_size_inches(4, 6)
-    plt.title(r"Volume vs Temperature")
+    plt.title(r"Silicon Volume vs Temperature")
     ts = [i for i in range(0, 701, 20)]
-    plt.plot(ts, v_0[0])
+    plt.plot(ts, v_0[0], c='r')
     plt.xlabel(r"Temp $(K)$")
     plt.ylabel(r"Volume (Bohr$^3$)")
     plt.tight_layout()
@@ -104,7 +104,7 @@ def load_lats(lats, lat_strings):
     #ax2.tick_params('y', colors='r')
     #
     #fig.tight_layout()
-    plt.show()
+    #plt.show()
 
 def mid_gradient(x, y):
     mids = list(map(lambda a: (a[1]-a[0])/2+a[0], zip(x, x[1:])))
