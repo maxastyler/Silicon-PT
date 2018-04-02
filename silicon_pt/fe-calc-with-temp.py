@@ -82,16 +82,17 @@ def load_lats(lats, lat_strings):
         # Make the y-axis label, ticks and tick labels match the line color.
     plt.ylabel(r'Free energy $(Ry)$', color='b')
     plt.tick_params('y', colors='b')
+    plt.tight_layout()
     plt.savefig('../../Sodium-DFT-Project/project_presentation/silicon_isotherms.png')
     #plt.subplot(212)
     plt.clf()
-    plt.tight_layout()
     #plt.figure().set_size_inches(4, 6)
     plt.title(r"Volume vs Temperature")
     ts = [i for i in range(0, 701, 20)]
     plt.plot(ts, v_0[0])
     plt.xlabel(r"Temp $(K)$")
     plt.ylabel(r"Volume (Bohr$^3$)")
+    plt.tight_layout()
     plt.savefig('../../Sodium-DFT-Project/project_presentation/silicon_min_volume.png')
     #plt.subplot(313)
     #plt.plot(*mid_gradient(ts, v_0[0]))
