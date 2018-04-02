@@ -1,0 +1,19 @@
+#!/bin/sh
+#Calculates the pressure with ev.x
+#Input format:
+#temp_min temp_step temp_max
+PREFIX='si'
+OUTPUT_DIR='pressure_fits'
+FIT_DIR='bm_fits'
+LAT_TYPE='fcc' #type of the lattice
+FIT_TYPE=1 #Fit to birchmurnaghan (2nd order?)
+
+mkdir -p "$OUTPUT_DIR"
+
+cd $OUTPUT_DIR
+for t in `seq $1 $2 $3` ; do
+	echo "On temperature $t"
+	echo -e "au\n$LAT_TYPE\n$FIT_TYPE\n../$FIT_DIR/$PREFIX.$t.bm\n$PREFIX.$t.pressure" | ev.x > /dev/null
+done
+echo "Done!"
+cd ../

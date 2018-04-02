@@ -1,0 +1,9 @@
+Silicon Phonon Calculation for Lat_Param=10.364
+&inputph
+	prefix = 'silicon.10.364',
+	ldisp = .true.
+	nq1 = 4,
+	nq2 = 4,
+	nq3 = 4,
+	fildyn = 'silicon.10.364.dyn',
+/

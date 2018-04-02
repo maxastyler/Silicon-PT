@@ -1,0 +1,15 @@
+#!/bin/sh
+
+#to run do $ ./zpe-calc min_lat_param lat_param_step max_lat_param min_t t_step max_t
+
+# run from directory where this script is
+cd `echo $0 | sed 's/\(.*\)\/.*/\1/'` # extract pathname
+MASTER_DIR=`pwd`
+M_DIM=30
+
+for i in `seq $1 $2 $3`; do
+	echo "On lattice param = $i"
+	cd si.$i
+	echo -e "silicon.$M_DIM$M_DIM$M_DIM.$i.dos\nsi.$i.fe\n$(seq $4 $5 $6)" | fqha.x
+	cd $MASTER_DIR
+done
