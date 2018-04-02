@@ -42,25 +42,30 @@ def load_lats(lats, lat_strings):
         fitted_energies.append([a[0]*(x-a[1])**2+a[2] for x in LAT[temp_index]])
 
     fig, ax1 = plt.subplots()
+
+    plt.ticklabel_format(useOffset=False)
+    ax1.get_yaxis().get_major_formatter().set_scientific(False)
     #x1 = plt.subplots()
-    #plt.title(r'Free Energy vs Lattice Parameter in Silicon at T=0K, T=500K')
+    plt.title(r'Free Energy vs Lattice Parameter in Silicon at $T=0K, T=500K$')
     ax1.plot(LAT[0], FREE_ENERGIES[0], 'b-')
     ax1.plot(LAT[0], fitted_energies[0], 'b.')
     ax1.set_xlabel('Lattice Paramter (Bohr)')
     # Make the y-axis label, ticks and tick labels match the line color.
-    ax1.set_ylabel(r'Free energy at $T=0K$', color='b')
+    ax1.set_ylabel(r'Free energy at $T=0K$ $(Ry)$', color='b')
     ax1.tick_params('y', colors='b')
     
     ax2 = ax1.twinx()
+    plt.ticklabel_format(useOffset=False)
+    ax2.get_yaxis().get_major_formatter().set_scientific(False)
     ax2.plot(LAT[25], FREE_ENERGIES[25], 'r-')
     ax2.plot(LAT[25], fitted_energies[25], 'r.')
-    ax2.set_ylabel(r'Free energy at $T=500K$', color='r')
+    ax2.set_ylabel(r'Free energy at $T=500K$ $(Ry)$', color='r')
     ax2.tick_params('y', colors='r')
     
-    fig.tight_layout()
-    fig.set_size_inches(6, 5)
+    fig.set_size_inches(11, 5)
+    #fig.tight_layout()
     fig.savefig('../../Sodium-DFT-Project/project_presentation/silicon_0_500_comparison.png')
-    #plt.show()
+    plt.show()
 
 
 def plot_electron_energy(lats, lat_strings):
