@@ -78,7 +78,7 @@ def load_lats(lats, lat_strings):
     l_vals = [(v/det_cell)**(1/3) for v in v_0[0]]
     #print(l_vals)
     plt.plot([(v/det_cell)**(1/3) for v in v_0[0]], v_0[1], c = 'r')
-    plt.xlabel(r'Lattice Paramter (Bohr)')
+    plt.xlabel(r'Lattice Parameter (Bohr)')
         # Make the y-axis label, ticks and tick labels match the line color.
     plt.ylabel(r'Free energy $(Ry)$')
     plt.tick_params('y')
@@ -87,11 +87,11 @@ def load_lats(lats, lat_strings):
     #plt.subplot(212)
     plt.clf()
     #plt.figure().set_size_inches(4, 6)
-    plt.title(r"Silicon Volume vs Temperature")
+    plt.title(r"Silicon Lattice Parameter vs Temperature")
     ts = [i for i in range(0, 701, 20)]
-    plt.plot(ts, v_0[0], c='r')
+    plt.plot(ts, l_vals, c='r')
     plt.xlabel(r"Temp $(K)$")
-    plt.ylabel(r"Volume (Bohr$^3$)")
+    plt.ylabel(r"Lattice Parameter (Bohr)")
     plt.tight_layout()
     plt.savefig('../../Sodium-DFT-Project/project_presentation/silicon_min_volume.png')
     #plt.subplot(313)
